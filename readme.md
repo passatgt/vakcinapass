@@ -7,7 +7,7 @@ https://vakcina-pass.herokuapp.com
 
 ## Fejlesztés
 
-1. Kell hozzá Apple fejlesztői fiók és [ez](https://github.com/alexandercerutti/passkit-generator#certificates) alapján generálni kell pár kulcsot a certificates mappába
-2. .env fájlban PASS_KEY_PASSPHRASE-ben add meg a kulcshoz használt jelszót
+1. Kell hozzá Apple fejlesztői fiók és [ez](https://github.com/alexandercerutti/passkit-generator#certificates) alapján generálni kell pár kulcsot
+2. .env fájlban PASS_KEY_PASSPHRASE-ben add meg a kulcshoz használt jelszót, base64-be kódolva pedig a generált kulcsokat SIGNERCERT, SIGNERKEY és WWDR néven
 3. `npm install` a szükséges dolgok telepítéséhez
 4. `npm run dev` a localhostos verzióhoz
