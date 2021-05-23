@@ -3,8 +3,8 @@ const Meta = () => {
 		<>
 			<title>Védettségi igazolvány Apple Wallet-hez</title>
 			<meta property="og:title" content="Védettségi igazolvány Apple Wallet-hez" />
-			<meta name="description" content="Add hozzá a védettési igazolványod az Apple Wallet-hez." />
-			<meta property="og:description" content="Add hozzá a védettési igazolványod az Apple Wallet-hez." />
+			<meta name="description" content="Add hozzá a védettségi igazolványod az Apple Wallet-hez." />
+			<meta property="og:description" content="Add hozzá a védettségi igazolványod az Apple Wallet-hez." />
 			<meta property="og:site_name" content="Védettségi igazolvány Apple Wallet-hez" />
 			<meta property="og:image" content="https://vakcina-pass.herokuapp.com/static/images/og-meta.png" />
 			<meta property="og:image:alt" content="WiFi Pass"/>
@@ -12,7 +12,7 @@ const Meta = () => {
 			<meta property="og:image:height" content="630"/>
 			<meta name="twitter:card" content="summary"/>
 			<meta name="twitter:creator" content="@visztpeter" />
-			<meta property="twitter:description" content="Add hozzá a védettési igazolványod az Apple Wallet-hez." />
+			<meta property="twitter:description" content="Add hozzá a védettségi igazolványod az Apple Wallet-hez." />
 			<meta property="twitter:image" content="https://vakcina-pass.herokuapp.com/static/images/og-meta.png" />
 			<meta name="viewport" content="width=device-width, initial-scale=1" />
 			<link rel="apple-touch-icon" sizes="180x180" href="/static/images/apple-touch-icon-180x180-precomposed.png" />
