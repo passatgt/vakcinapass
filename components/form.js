@@ -42,6 +42,14 @@ const Form = () => {
 		placeholder: 'Személyazonosító igazolvány száma',
 	};
 
+	const [passportNumber, setPassportNumber] = useState('');
+	const handlePassportNumberChange = event => setPassportNumber(event.target.value);
+	const passportNumberSettings = {
+		value: passportNumber,
+		onChange: handlePassportNumberChange,
+		placeholder: 'Útlevél száma (nem kötelező)',
+	};
+
 	const [shotDate, setShotDate] = useState('');
 	const handleShotDateChange = event => setShotDate(event.target.value);
 	const shotDateSettings = {
@@ -51,6 +59,22 @@ const Form = () => {
 		mask: '9999.99.99.',
 		maskPlaceholder: "éééé.hh.nn.",
 		alwaysShowMask: false
+	};
+
+
+	const [language, setLanguage] = useState('');
+	const handleLanguageChange = event => setLanguage(event.target.value);
+	const languageSettings = {
+		value: language,
+		onChange: handleLanguageChange,
+		placeholder: 'Nyelv',
+	};
+	const [icon, setIcon] = useState('');
+	const handleIconChange = event => setIcon(event.target.value);
+	const iconSettings = {
+		value: icon,
+		onChange: handleIconChange,
+		placeholder: 'Ikon',
 	};
 
 	const handleScan = data => {
@@ -89,7 +113,7 @@ const Form = () => {
 			const requestOptions = {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({firstName: firstName, lastName: lastName, idNumber: idNumber, cardNumber: cardNumber, qr: qr.result})
+				body: JSON.stringify({firstName, lastName, idNumber, cardNumber, passportNumber, shotDate, icon, language, qr: qr.result })
 			};
 			fetch('/api/generate', requestOptions)
 				.then((res) => {
@@ -116,21 +140,43 @@ const Form = () => {
 
 	return (
 		<form onSubmit={handleSubmit}>
-			<p className={classNames({ valid: (lastName != '') })}>
-				<input id="lastName" type="text" {...lastNameSettings} />
-			</p>
-			<p className={classNames({ valid: (firstName != '') })}>
-				<input id="firstName" type="text" {...firstNameSettings} />
-			</p>
+			<div className="row">
+				<p className={classNames({ valid: (lastName != '') })}>
+					<input id="lastName" type="text" {...lastNameSettings} />
+				</p>
+				<p className={classNames({ valid: (firstName != '') })}>
+					<input id="firstName" type="text" {...firstNameSettings} />
+				</p>
+			</div>
 			<p className={classNames({ valid: (idNumber != '') })}>
 				<input id="idNumber" type="text" {...idNumberSettings} />
 			</p>
 			<p className={classNames({ valid: (cardNumber != '') })}>
 				<input id="cardNumber" type="text" {...cardNumberSettings} />
 			</p>
+			<p className={classNames({ valid: (passportNumber != '') })}>
+				<input id="passportNumber" type="text" {...passportNumberSettings} />
+			</p>
 			<p className={classNames({ valid: (!!shotDate.match(/^[\d.]+$/)) })}>
 				<InputMask id="shotDate" type="text" {...shotDateSettings} />
 			</p>
+			<div className="row">
+				<p>
+					<label htmlFor="language">Felirat nyelve</label>
+					<select name="language" id="language" {...languageSettings}>
+						<option value="hu">Magyar</option>
+						<option value="en">Angol</option>
+					</select>
+				</p>
+				<p>
+					<label htmlFor="icon">Pass ikon</label>
+					<span className={classNames({ 'select-icon': true, [icon]: true })} />
+					<select name="icon" id="icon" {...iconSettings}>
+						<option value="card">Kártya</option>
+						<option value="country">Címer</option>
+					</select>
+				</p>
+			</div>
 			<div className={classNames({ 'qr-code-input': true, valid: (qr.result != '') })}>
 				<div id="qrCodeField">
 					<span>QR kód</span>
