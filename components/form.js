@@ -9,6 +9,39 @@ const InputMask = dynamic(() => import('react-input-mask'), { ssr: false });
 
 const Form = () => {
 	const router = useRouter()
+
+	const [scrapeLoading, setScrapeLoading] = useState(false)
+	const [scraped, setScraped] = useState(false)
+	const [manualMode, setManualMode] = useState(false)
+
+	const beginScrape = url => {
+    setScrapeLoading(true)
+
+		const requestOptions = {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ url })
+		};
+		fetch('/api/scrape', requestOptions)
+			.then(res => res.json())
+			.then(data => {
+				setFirstName(data.firstName)
+				setLastName(data.lastName)
+				setIDNumber(data.idNumber)
+				setPassportNumber(data.passportNumber)
+				setShotDate(data.shotDate)
+				// setCardNumber(res.cardNumber) // az EESZT nem küldi vissza a kártya számot :(
+
+				setScraped(true)
+			})
+			.catch(console.error) // silent catch
+			.finally(() => {
+				closeModal()
+				setManualMode(true)
+				setScrapeLoading(false)
+			})
+  }
+
 	const [lastName, setLastName] = useState('');
 	const handleLastNameChange = event => setLastName(event.target.value);
 	const lastNameSettings = {
@@ -82,7 +115,7 @@ const Form = () => {
       setQR({
         result: data
       })
-			closeModal()
+			beginScrape(data)
     }
   }
   const handleError = err => {
@@ -136,30 +169,54 @@ const Form = () => {
 
 	const [qr, setQR] = useState({result: ''});
 	const [open, setOpen] = useState(false);
-	const closeModal = () => setOpen(false);
+	const closeModal = () => {
+		setScrapeLoading(false);
+		setOpen(false);
+	}
 
 	return (
 		<form onSubmit={handleSubmit}>
-			<div className="row">
-				<p className={classNames({ valid: (lastName != '') })}>
-					<input id="lastName" type="text" {...lastNameSettings} />
-				</p>
-				<p className={classNames({ valid: (firstName != '') })}>
-					<input id="firstName" type="text" {...firstNameSettings} />
-				</p>
-			</div>
-			<p className={classNames({ valid: (idNumber != '') })}>
-				<input id="idNumber" type="text" {...idNumberSettings} />
-			</p>
 			<p className={classNames({ valid: (cardNumber != '') })}>
 				<input id="cardNumber" type="text" {...cardNumberSettings} />
 			</p>
-			<p className={classNames({ valid: (passportNumber != '') })}>
-				<input id="passportNumber" type="text" {...passportNumberSettings} />
-			</p>
-			<p className={classNames({ valid: (!!shotDate.match(/^[\d.]+$/)) })}>
-				<InputMask id="shotDate" type="text" {...shotDateSettings} />
-			</p>
+			<div className={classNames({ 'qr-code-input': true, valid: (qr.result != '') })}>
+				<div id="qrCodeField">
+					<span>QR kód</span>
+					<button type="button" onClick={() => setOpen(o => !o)}>Beolvasás kamerával</button>
+					<Popup open={open} closeOnDocumentClick onClose={closeModal}>
+						{scrapeLoading ? (
+							<small>Adatok betöltése az EESZT oldaláról...</small>
+							) : (
+							<>
+								<QrReader delay={300} onError={handleError} onScan={handleScan} style={{ width: '100%' }} />
+								<small>Olvasd be a védettségi igazolványodon lévő QR kódot a telefonoddal</small>
+							</>
+						)}
+				  </Popup>
+				</div>
+				<small>Olvasd be a védettségi igazolványodon lévő QR kódot a telefonoddal</small>
+			</div>
+			{ (scraped || manualMode) && 
+				<>
+					<div className="row">
+						<p className={classNames({ valid: (lastName != '') })}>
+							<input id="lastName" type="text" {...lastNameSettings} />
+						</p>
+						<p className={classNames({ valid: (firstName != '') })}>
+							<input id="firstName" type="text" {...firstNameSettings} />
+						</p>
+					</div>
+					<p className={classNames({ valid: (idNumber != '') })}>
+						<input id="idNumber" type="text" {...idNumberSettings} />
+					</p>
+					<p className={classNames({ valid: (passportNumber != '') })}>
+						<input id="passportNumber" type="text" {...passportNumberSettings} />
+					</p>
+					<p className={classNames({ valid: (!!shotDate.match(/^[\d.]+$/)) })}>
+						<InputMask id="shotDate" type="text" {...shotDateSettings} />
+					</p>
+				</>
+			}
 			<div className="row">
 				<p>
 					<label htmlFor="language">Felirat nyelve</label>
@@ -176,17 +233,6 @@ const Form = () => {
 						<option value="country">Címer</option>
 					</select>
 				</p>
-			</div>
-			<div className={classNames({ 'qr-code-input': true, valid: (qr.result != '') })}>
-				<div id="qrCodeField">
-					<span>QR kód</span>
-					<button type="button" onClick={() => setOpen(o => !o)}>Beolvasás kamerával</button>
-					<Popup open={open} closeOnDocumentClick onClose={closeModal}>
-						<QrReader delay={300} onError={handleError} onScan={handleScan} style={{ width: '100%' }} />
-						<small>Olvasd be a védettségi igazolványodon lévő QR kódot a telefonoddal</small>
-				  </Popup>
-				</div>
-				<small>Olvasd be a védettségi igazolványodon lévő QR kódot a telefonoddal</small>
 			</div>
 			<p className="submit">
 				<button type="submit">Hozzáadás a Wallet-hez</button>
