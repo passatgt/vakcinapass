@@ -72,7 +72,27 @@ const Form = () => {
 		}, 500);
 
 		if(valid) {
-			router.push({ pathname: '/api/generate', query: { firstName: firstName, lastName: lastName, idNumber: idNumber, cardNumber: cardNumber, qr: qr.result} });
+
+			const requestOptions = {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({firstName: firstName, lastName: lastName, idNumber: idNumber, cardNumber: cardNumber, qr: qr.result})
+			};
+			fetch('/api/generate', requestOptions)
+				.then((res) => {
+					return res.blob();
+				})
+				.then((blob) => {
+					const href = window.URL.createObjectURL(blob);
+					const link = document.createElement('a');
+					link.href = href;
+					link.setAttribute('download', firstName.toLowerCase()+'pass.pkpass'); //or any other extension
+					document.body.appendChild(link);
+					link.click();
+				})
+				.catch((err) => {
+					return Promise.reject({ Error: 'Something Went Wrong', err });
+				})
 		}
 
   };
