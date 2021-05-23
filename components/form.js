@@ -30,6 +30,7 @@ const Form = () => {
 		value: cardNumber,
 		onChange: handleCardNumberChange,
 		placeholder: 'A kártya sorszáma',
+		autoComplete: "off"
 	};
 
 	const [idNumber, setIDNumber] = useState('');
