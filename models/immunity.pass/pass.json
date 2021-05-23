@@ -1,0 +1,27 @@
+{
+	"formatVersion": 1,
+	"passTypeIdentifier": "pass.com.visztpeter.covidpass",
+	"serialNumber": "",
+	"teamIdentifier": "TQH59G7XUA",
+	"barcodes": [{
+		"message": "",
+		"format": "PKBarcodeFormatQR",
+		"messageEncoding": "iso-8859-1"
+	}],
+	"logoText": "Védettségi igazolvány",
+	"organizationName": "Védettségi igazolvány",
+	"description": "Védettségi igazolvány",
+	"foregroundColor": "rgb(0, 0, 0)",
+	"backgroundColor": "rgb(163, 189, 130)",
+	"generic": {
+		"primaryFields": [],
+		"secondaryFields": [],
+		"backFields": [
+			{
+				"key": "website",
+				"label": "Készítette",
+				"value": "https://vakcina-pass.herokuapp.com"
+			}
+		]
+	}
+}
