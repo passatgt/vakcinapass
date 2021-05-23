@@ -7,7 +7,7 @@ const Meta = () => {
 			<meta property="og:description" content="Add hozzá a védettségi igazolványod az Apple Wallet-hez." />
 			<meta property="og:site_name" content="Védettségi igazolvány Apple Wallet-hez" />
 			<meta property="og:image" content="https://vakcina-pass.herokuapp.com/static/images/og-meta.png" />
-			<meta property="og:image:alt" content="WiFi Pass"/>
+			<meta property="og:image:alt" content="Védettségi igazolvány Apple Wallet-hez"/>
 			<meta property="og:image:width" content="1200"/>
 			<meta property="og:image:height" content="630"/>
 			<meta name="twitter:card" content="summary"/>
