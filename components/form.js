@@ -40,6 +40,14 @@ const Form = () => {
 		placeholder: 'Személyazonosító igazolvány száma',
 	};
 
+	const [passportNumber, setPassportNumber] = useState('');
+	const handlePassportNumberChange = event => setPassportNumber(event.target.value);
+	const passportNumberSettings = {
+		value: passportNumber,
+		onChange: handlePassportNumberChange,
+		placeholder: 'Útlevél száma(opcionális)',
+	};
+
 	const handleScan = data => {
     if (data) {
       setQR({
@@ -76,7 +84,7 @@ const Form = () => {
 			const requestOptions = {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({firstName: firstName, lastName: lastName, idNumber: idNumber, cardNumber: cardNumber, qr: qr.result})
+				body: JSON.stringify({firstName: firstName, lastName: lastName, idNumber: idNumber, passportNumber: passportNumber, cardNumber: cardNumber, qr: qr.result})
 			};
 			fetch('/api/generate', requestOptions)
 				.then((res) => {
@@ -103,14 +111,19 @@ const Form = () => {
 
 	return (
 		<form onSubmit={handleSubmit}>
-			<p className={classNames({ valid: (lastName != '') })}>
-				<input id="lastName" type="text" {...lastNameSettings} />
-			</p>
-			<p className={classNames({ valid: (firstName != '') })}>
-				<input id="firstName" type="text" {...firstNameSettings} />
-			</p>
+			<div className="name-fields">
+				<p className={classNames({ valid: (lastName != '') })}>
+					<input id="lastName" type="text" {...lastNameSettings} />
+				</p>
+				<p className={classNames({ valid: (firstName != '') })}>
+					<input id="firstName" type="text" {...firstNameSettings} />
+				</p>
+			</div>
 			<p className={classNames({ valid: (idNumber != '') })}>
 				<input id="idNumber" type="text" {...idNumberSettings} />
+			</p>
+			<p>
+				<input id="passportNumber" type="text" {...passportNumberSettings} />
 			</p>
 			<p className={classNames({ valid: (cardNumber != '') })}>
 				<input id="cardNumber" type="text" {...cardNumberSettings} />

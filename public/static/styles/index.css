@@ -70,6 +70,18 @@ form p {
 	position: relative;
 }
 
+form .name-fields {
+	display: flex;
+}
+
+form .name-fields p:first-child {
+	margin-right: 5px;
+}
+
+form .name-fields p:last-child {
+	margin-left: 5px;
+}
+
 form p.valid:after {
 	position: absolute;
 	right: 5px;
@@ -91,6 +103,7 @@ form p input[type="text"] {
 	font-size: 16px;
 	outline: none;
 	margin: 0;
+	-webkit-appearance: none;
 }
 
 form p input.shake {

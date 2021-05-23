@@ -8,9 +8,9 @@
 		"format": "PKBarcodeFormatQR",
 		"messageEncoding": "iso-8859-1"
 	}],
-	"logoText": "Védettségi igazolvány",
-	"organizationName": "Védettségi igazolvány",
-	"description": "Védettségi igazolvány",
+	"logoText": "title",
+	"organizationName": "title",
+	"description": "title",
 	"foregroundColor": "rgb(0, 0, 0)",
 	"backgroundColor": "rgb(163, 189, 130)",
 	"generic": {
@@ -19,7 +19,7 @@
 		"backFields": [
 			{
 				"key": "website",
-				"label": "Készítette",
+				"label": "created",
 				"value": "https://vakcina-pass.herokuapp.com"
 			}
 		]
