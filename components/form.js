@@ -5,6 +5,7 @@ import dynamic from "next/dynamic";
 import classNames from "classnames";
 const QrReader = dynamic(() => import("react-qr-reader"), { ssr: false});
 const Popup = dynamic(() => import("reactjs-popup"), { ssr: false});
+const InputMask = dynamic(() => import('react-input-mask'), { ssr: false });
 
 const Form = () => {
 	const router = useRouter()
@@ -39,6 +40,17 @@ const Form = () => {
 		value: idNumber,
 		onChange: handleIDNumberChange,
 		placeholder: 'Személyazonosító igazolvány száma',
+	};
+
+	const [shotDate, setShotDate] = useState('');
+	const handleShotDateChange = event => setShotDate(event.target.value);
+	const shotDateSettings = {
+		value: shotDate,
+		onChange: handleShotDateChange,
+		placeholder: 'Az oltás ideje (nem kötelező)',
+		mask: '9999.99.99.',
+		maskPlaceholder: "éééé.hh.nn.",
+		alwaysShowMask: false
 	};
 
 	const handleScan = data => {
@@ -115,6 +127,9 @@ const Form = () => {
 			</p>
 			<p className={classNames({ valid: (cardNumber != '') })}>
 				<input id="cardNumber" type="text" {...cardNumberSettings} />
+			</p>
+			<p className={classNames({ valid: (!!shotDate.match(/^[\d.]+$/)) })}>
+				<InputMask id="shotDate" type="text" {...shotDateSettings} />
 			</p>
 			<div className={classNames({ 'qr-code-input': true, valid: (qr.result != '') })}>
 				<div id="qrCodeField">
