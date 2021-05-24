@@ -61,7 +61,6 @@ const Form = () => {
 		alwaysShowMask: false
 	};
 
-
 	const [language, setLanguage] = useState('');
 	const handleLanguageChange = event => setLanguage(event.target.value);
 	const languageSettings = {
@@ -69,6 +68,7 @@ const Form = () => {
 		onChange: handleLanguageChange,
 		placeholder: 'Nyelv',
 	};
+
 	const [icon, setIcon] = useState('');
 	const handleIconChange = event => setIcon(event.target.value);
 	const iconSettings = {
@@ -109,12 +109,12 @@ const Form = () => {
 		}, 500);
 
 		if(valid) {
-
 			const requestOptions = {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({firstName, lastName, idNumber, cardNumber, passportNumber, shotDate, icon, language, qr: qr.result })
 			};
+
 			fetch('/api/generate', requestOptions)
 				.then((res) => {
 					return res.blob();
@@ -123,7 +123,7 @@ const Form = () => {
 					const href = window.URL.createObjectURL(blob);
 					const link = document.createElement('a');
 					link.href = href;
-					link.setAttribute('download', firstName.toLowerCase()+'pass.pkpass'); //or any other extension
+					link.setAttribute('download', firstName.toLowerCase()+'pass.pkpass');
 					document.body.appendChild(link);
 					link.click();
 				})
@@ -137,6 +137,7 @@ const Form = () => {
 	const [qr, setQR] = useState({result: ''});
 	const [open, setOpen] = useState(false);
 	const closeModal = () => setOpen(false);
+	const [optionalSettings, setOptionalSettings] = useState(false);
 
 	return (
 		<form onSubmit={handleSubmit}>
@@ -154,29 +155,6 @@ const Form = () => {
 			<p className={classNames({ valid: (cardNumber != '') })}>
 				<input id="cardNumber" type="text" {...cardNumberSettings} />
 			</p>
-			<p className={classNames({ valid: (passportNumber != '') })}>
-				<input id="passportNumber" type="text" {...passportNumberSettings} />
-			</p>
-			<p className={classNames({ valid: (!!shotDate.match(/^[\d.]+$/)) })}>
-				<InputMask id="shotDate" type="text" {...shotDateSettings} />
-			</p>
-			<div className="row">
-				<p>
-					<label htmlFor="language">Felirat nyelve</label>
-					<select name="language" id="language" {...languageSettings}>
-						<option value="hu">Magyar</option>
-						<option value="en">Angol</option>
-					</select>
-				</p>
-				<p>
-					<label htmlFor="icon">Pass ikon</label>
-					<span className={classNames({ 'select-icon': true, [icon]: true })} />
-					<select name="icon" id="icon" {...iconSettings}>
-						<option value="card">Kártya</option>
-						<option value="country">Címer</option>
-					</select>
-				</p>
-			</div>
 			<div className={classNames({ 'qr-code-input': true, valid: (qr.result != '') })}>
 				<div id="qrCodeField">
 					<span>QR kód</span>
@@ -188,6 +166,35 @@ const Form = () => {
 				</div>
 				<small>Olvasd be a védettségi igazolványodon lévő QR kódot a telefonoddal</small>
 			</div>
+
+			<button type="button" onClick={() => setOptionalSettings(o => !o)} className={classNames({ 'other-settings': true, open: optionalSettings })}>Opcionális beállítások</button>
+
+			<div className="other-settings-fields">
+				<div className="row">
+					<p>
+						<label htmlFor="language">Felirat nyelve</label>
+						<select name="language" id="language" {...languageSettings}>
+							<option value="hu">Magyar</option>
+							<option value="en">Angol</option>
+						</select>
+					</p>
+					<p>
+						<label htmlFor="icon">Pass ikon</label>
+						<span className={classNames({ 'select-icon': true, [icon]: true })} />
+						<select name="icon" id="icon" {...iconSettings}>
+							<option value="card">Kártya</option>
+							<option value="country">Címer</option>
+						</select>
+					</p>
+				</div>
+				<p className={classNames({ valid: (passportNumber != '') })}>
+					<input id="passportNumber" type="text" {...passportNumberSettings} />
+				</p>
+				<p className={classNames({ valid: (!!shotDate.match(/^[\d.]+$/)) })}>
+					<InputMask id="shotDate" type="text" {...shotDateSettings} />
+				</p>
+			</div>
+
 			<p className="submit">
 				<button type="submit">Hozzáadás a Wallet-hez</button>
 			</p>
