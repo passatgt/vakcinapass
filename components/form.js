@@ -61,7 +61,7 @@ const Form = () => {
 		alwaysShowMask: false
 	};
 
-	const [language, setLanguage] = useState('');
+	const [language, setLanguage] = useState('hu');
 	const handleLanguageChange = event => setLanguage(event.target.value);
 	const languageSettings = {
 		value: language,
@@ -69,7 +69,7 @@ const Form = () => {
 		placeholder: 'Nyelv',
 	};
 
-	const [icon, setIcon] = useState('');
+	const [icon, setIcon] = useState('card');
 	const handleIconChange = event => setIcon(event.target.value);
 	const iconSettings = {
 		value: icon,
