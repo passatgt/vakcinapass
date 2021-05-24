@@ -70,16 +70,19 @@ form p {
 	position: relative;
 }
 
-form .name-fields {
+form .row {
 	display: flex;
+	margin-left: -5px;
+	margin-right: -5px;
 }
 
-form .name-fields p:first-child {
-	margin-right: 5px;
+form .row * {
+	flex: 1;
 }
 
-form .name-fields p:last-child {
+form .row p {
 	margin-left: 5px;
+	margin-right: 5px;
 }
 
 form p.valid:after {
@@ -94,7 +97,13 @@ form p.valid:after {
 	border-radius: 6px;
 }
 
-form p input[type="text"] {
+form p label {
+	margin-bottom: 5px;
+	display: inline-block;
+}
+
+form p input[type="text"],
+form p select {
 	background: #fff;
 	border: 1px solid #fff;
 	border-radius: 10px;
@@ -103,15 +112,47 @@ form p input[type="text"] {
 	font-size: 16px;
 	outline: none;
 	margin: 0;
-	-webkit-appearance: none;
+	appearance: none;
 }
 
-form p input.shake {
+form p input.shake,
+form p select.shake {
 	animation: shake 0.2s ease-in-out 0s 2;
 }
 
-form p input[type="text"]::placeholder {
+form p input[type="text"]::placeholder,
+form p select::placeholder {
 	color: rgba(0,0,0,0.7);
+}
+
+form p select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background: #fff url("data:image/svg+xml;utf8,<svg fill='rgba(0,0,0,0.7)' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>");
+  background-repeat: no-repeat;
+  background-position-x: calc(100% - 10px);
+  background-position-y: 50%;
+}
+
+select[name="icon"] {
+	padding-left: 44px;
+}
+span.select-icon {
+	position: absolute;
+	display: block;
+	width: 24px;
+	height: 24px;
+	/* background-image: url(../images/app-logo.svg); */
+	background: url(../images/app-logo.svg) no-repeat center;
+	background-size: contain;
+	background-repeat: no-repeat;
+	background-position: center;
+	border: none;
+	margin: 13px 12px;
+}
+span.select-icon.country {
+	margin-top: 12px;
+	background-image: url(../images/hungary.png);
 }
 
 #qrCodeField.shake {
