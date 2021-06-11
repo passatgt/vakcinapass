@@ -9,7 +9,7 @@ class VakcinaPass extends Document {
 				<Head>
 					<script
 					dangerouslySetInnerHTML={{
-						__html: `if (document.URL.substring(0,5) == 'https:') window.location.replace('https:' + document.URL.substring(5));`
+						__html: `if (document.URL.substring(0,5) == 'http:') window.location.replace('https:' + document.URL.substring(5));`
 					}}
 					/>
 					<Meta />
