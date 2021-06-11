@@ -258,7 +258,7 @@ span.select-icon.country {
 }
 
 .other-settings.open + .other-settings-fields {
-	max-height: 200px;
+	max-height: 300px;
 	opacity: 1;
 }
 

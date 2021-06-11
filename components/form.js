@@ -47,7 +47,7 @@ const Form = () => {
 	const passportNumberSettings = {
 		value: passportNumber,
 		onChange: handlePassportNumberChange,
-		placeholder: 'Útlevél száma (nem kötelező)',
+		placeholder: 'Útlevél száma',
 	};
 
 	const [shotDate, setShotDate] = useState('');
@@ -55,7 +55,18 @@ const Form = () => {
 	const shotDateSettings = {
 		value: shotDate,
 		onChange: handleShotDateChange,
-		placeholder: 'Az oltás ideje (nem kötelező)',
+		placeholder: 'Első oltás ideje',
+		mask: '9999.99.99.',
+		maskPlaceholder: "éééé.hh.nn.",
+		alwaysShowMask: false
+	};
+
+	const [shotDateSecond, setShotDateSecond] = useState('');
+	const handleShotDateSecondChange = event => setShotDateSecond(event.target.value);
+	const shotDateSecondSettings = {
+		value: shotDateSecond,
+		onChange: handleShotDateSecondChange,
+		placeholder: 'Második oltás ideje',
 		mask: '9999.99.99.',
 		maskPlaceholder: "éééé.hh.nn.",
 		alwaysShowMask: false
@@ -75,6 +86,13 @@ const Form = () => {
 		value: icon,
 		onChange: handleIconChange,
 		placeholder: 'Ikon',
+	};
+
+	const [shot, setShot] = useState('');
+	const handleShotChange = event => setShot(event.target.value);
+	const shotSettings = {
+		value: shot,
+		onChange: handleShotChange
 	};
 
 	const handleScan = data => {
@@ -112,7 +130,7 @@ const Form = () => {
 			const requestOptions = {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({firstName, lastName, idNumber, cardNumber, passportNumber, shotDate, icon, language, qr: qr.result })
+				body: JSON.stringify({firstName, lastName, idNumber, cardNumber, passportNumber, shot, shotDate, shotDateSecond, icon, language, qr: qr.result })
 			};
 
 			fetch('/api/generate', requestOptions)
@@ -190,9 +208,26 @@ const Form = () => {
 				<p className={classNames({ valid: (passportNumber != '') })}>
 					<input id="passportNumber" type="text" {...passportNumberSettings} />
 				</p>
-				<p className={classNames({ valid: (!!shotDate.match(/^[\d.]+$/)) })}>
-					<InputMask id="shotDate" type="text" {...shotDateSettings} />
+				<p>
+					<label htmlFor="icon">Vakcina típusa</label>
+					<select name="shot" id="shot" {...shotSettings}>
+						<option value="">Válassz egy vakcinát</option>
+						<option value="pfizer">Pfizer-Biontech</option>
+						<option value="moderna">Moderna</option>
+						<option value="sputnik">Szputnyik</option>
+						<option value="astra">AstraZeneca</option>
+						<option value="sinopharm">Sinopharm</option>
+						<option value="janssen">Janssen</option>
+					</select>
 				</p>
+				<div className="row">
+					<p className={classNames({ valid: (!!shotDate.match(/^[\d.]+$/)) })}>
+						<InputMask id="shotDate" type="text" {...shotDateSettings} />
+					</p>
+					<p className={classNames({ valid: (!!shotDateSecond.match(/^[\d.]+$/)) })}>
+						<InputMask id="shotDateSecond" type="text" {...shotDateSecondSettings} />
+					</p>
+				</div>
 			</div>
 
 			<p className="submit">
