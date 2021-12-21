@@ -2,9 +2,9 @@ import generatePass from '../../lib/generate-pass';
 
 export default async (request, response) => {
 	try {
-		const { firstName, lastName, idNumber, cardNumber, qr, passportNumber, shot, shotDate, shotDateSecond, icon, language } = request.body;
+		const { firstName, lastName, idNumber, cardNumber, qr, passportNumber, shot, shotDate, shotDateSecond, boosterShot, boosterShotDate, icon, language } = request.body;
 
-		const pass = await generatePass({ firstName, lastName, idNumber, cardNumber, qr, passportNumber, shot, shotDate, shotDateSecond, icon, language });
+		const pass = await generatePass({ firstName, lastName, idNumber, cardNumber, qr, passportNumber, shot, shotDate, shotDateSecond, boosterShot, boosterShotDate, icon, language });
 		const filename = firstName.toLowerCase();
 		response.setHeader('Content-Type', 'application/vnd.apple.pkpass');
 		response.setHeader('Content-Disposition', `attachment; filename=${filename}.pkpass`);

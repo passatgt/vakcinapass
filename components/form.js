@@ -95,6 +95,24 @@ const Form = () => {
 		onChange: handleShotChange
 	};
 
+	const [boosterShot, setBoosterShot] = useState('');
+	const handleBoosterShotChange = event => setBoosterShot(event.target.value);
+	const boosterShotSettings = {
+		value: boosterShot,
+		onChange: handleBoosterShotChange
+	};
+
+	const [boosterShotDate, setBoosterShotDate] = useState('');
+	const handleBoosterShotDateChange = event => setBoosterShotDate(event.target.value);
+	const boosterShotDateSettings = {
+		value: boosterShotDate,
+		onChange: handleBoosterShotDateChange,
+		placeholder: 'Harmadik oltás ideje',
+		mask: '9999.99.99.',
+		maskPlaceholder: "éééé.hh.nn.",
+		alwaysShowMask: false
+	};
+
 	const handleScan = data => {
     if (data) {
       setQR({
@@ -130,7 +148,7 @@ const Form = () => {
 			const requestOptions = {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({firstName, lastName, idNumber, cardNumber, passportNumber, shot, shotDate, shotDateSecond, icon, language, qr: qr.result })
+				body: JSON.stringify({firstName, lastName, idNumber, cardNumber, passportNumber, shot, shotDate, shotDateSecond, boosterShot, boosterShotDate, icon, language, qr: qr.result })
 			};
 
 			fetch('/api/generate', requestOptions)
@@ -209,7 +227,7 @@ const Form = () => {
 					<input id="passportNumber" type="text" {...passportNumberSettings} />
 				</p>
 				<p>
-					<label htmlFor="icon">Vakcina típusa</label>
+					<label htmlFor="shot">Első két oltás</label>
 					<select name="shot" id="shot" {...shotSettings}>
 						<option value="">Válassz egy vakcinát</option>
 						<option value="pfizer">Pfizer-Biontech</option>
@@ -228,6 +246,29 @@ const Form = () => {
 						<InputMask id="shotDateSecond" type="text" {...shotDateSecondSettings} />
 					</p>
 				</div>
+
+				<p className="row-label">
+				<label htmlFor="boosterShot">Emlékeztető oltás</label>
+				</p>
+				<div className="row">
+					<p>
+						<select name="boosterShot" id="boosterShot" {...boosterShotSettings}>
+							<option value="">Válassz egy vakcinát</option>
+							<option value="pfizer">Pfizer-Biontech</option>
+							<option value="moderna">Moderna</option>
+							<option value="sputnik">Szputnyik</option>
+							<option value="astra">AstraZeneca</option>
+							<option value="sinopharm">Sinopharm</option>
+							<option value="janssen">Janssen</option>
+						</select>
+					</p>
+					<div>
+						<p className={classNames({ valid: (!!boosterShotDate.match(/^[\d.]+$/)) })}>
+							<InputMask id="boosterShotDate" type="text" {...boosterShotDateSettings} />
+						</p>
+					</div>
+				</div>
+
 			</div>
 
 			<p className="submit">
